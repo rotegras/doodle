@@ -41,13 +41,13 @@
 
       <div>
         <v-row class="px-5 my-0">
-          <v-col v-for="(colName, i) in this.headers"
+          <v-col v-for="(columnName, i) in this.headers"
           :key="i"
           >
             <AttendanceSlot
               ref="attslot"
-              :date="colName.text"
-              :dataProps="colName"
+              :date="columnName.text"
+              :dataProps="columnName"
               :member="editedItem.name"
               :memberToAdd="memberToAdd"
               :itemData="editedItem"

@@ -114,6 +114,7 @@ import Parse from 'parse';
 
 export default {
   name: 'MemberForm',
+
   props: {
     info: {
       type: Object,
@@ -129,6 +130,7 @@ export default {
       type: Array,
     },
   },
+
   data() {
     return {
       added: this.info,
@@ -143,8 +145,8 @@ export default {
       },
     };
   },
-  methods: {
 
+  methods: {
     close() {
       this.$emit('dialogIsOpen', false);
       setTimeout(() => {
@@ -218,6 +220,7 @@ export default {
       this.$emit('updateMemberList', true);
     },
   },
+
   watch: {
     info() {
       this.added = this.info;

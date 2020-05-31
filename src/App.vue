@@ -1,9 +1,11 @@
 <template>
   <v-app>
-    <NavMenu/>
+    <NavMenu
+      authenticated="authenticated" @logout="logout"
+    />
 
     <v-content>
-      <router-view/>
+      <router-view authenticated="authenticated" />
     </v-content>
 
     <Footer/>
@@ -16,6 +18,25 @@ import Footer from './components/Footer.vue';
 
 export default {
   components: { NavMenu, Footer },
+  data: () => ({
+    authenticated: false,
+  }),
+
+  mounted() {
+    if (!this.authenticated) {
+      this.$router.replace({ name: 'login' });
+    }
+  },
+
+  methods: {
+    setAuthenticated(status) {
+      this.authenticated = status;
+    },
+    logout() {
+      this.authenticated = false;
+    },
+  },
+
 };
 </script>
 

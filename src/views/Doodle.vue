@@ -18,14 +18,14 @@
       <v-col>
 
         <AttendanceList
-          :itemsDates="this.tableDates"
+          :itemsDates="this.sortedDates"
           :members="this.tableMembers"
           @updateDates="this.getDates"
           v-if="tab === 0"
         />
 
         <DatesList
-         :propDates="this.tableDates"
+         :propDates="this.sortedDates"
           @updateDates="this.getDates"
           v-if="tab === 1"
           />
@@ -74,12 +74,10 @@ export default {
   },
 
   methods: {
-
     initParse() {
       Parse.initialize(process.env.VUE_APP_B4APPID, process.env.VUE_APP_B4AJAVASCRIPTKEY);
       Parse.serverURL = process.env.VUE_APP_SERVERURL;
     },
-
     getDates() {
       const datesQuery = new Parse.Query('CdbSession');
       datesQuery.find().then((items) => {
@@ -90,12 +88,10 @@ export default {
         }
       }).then(() => {
         console.log('Dates updated');
-        // this.tableDates();
       }).catch((error) => {
         console.log(`Error ${error.code} with message: ${error.message}`);
       });
     },
-
     getMembers() {
       const query = new Parse.Query('CdbMember');
       query.find().then((items) => {
@@ -108,55 +104,47 @@ export default {
         console.log(`Error: ${error.code} / ${error.message}`);
       });
     },
-
   },
-
   computed: {
-
-    tableDates() {
-      const tDates = [];
+    sortedDates() {
+      const datesArray = [];
       this.dates.map((item) => {
-        const ob = {};
-        ob.sessiondate = item.get('sessiondate');
-        ob.year = item.get('sessiondate').toISOString().slice(0, 4);
-        ob.month = item.get('sessiondate').toISOString().slice(5, 2);
+        const newObject = {};
+        newObject.sessiondate = item.get('sessiondate');
+        newObject.year = item.get('sessiondate').toISOString().slice(0, 4);
+        newObject.month = item.get('sessiondate').toISOString().slice(5, 2);
         if (item.get('sessiontime') !== undefined) {
-          ob.sessiontime = new Date().toISOString().slice(11, 16);
+          newObject.sessiontime = new Date().toISOString().slice(11, 16);
         } else {
-          ob.sessiontime = '18:35';
+          newObject.sessiontime = '18:35';
         }
-        ob.type = item.get('type');
-        ob.name = item.get('name');
-        ob.comments = item.get('comments');
-        ob.location = item.get('location');
-        ob.attendancelist = item.get('attendancelist');
-        ob.show = item.get('show');
+        newObject.type = item.get('type');
+        newObject.name = item.get('name');
+        newObject.comments = item.get('comments');
+        newObject.location = item.get('location');
+        newObject.attendancelist = item.get('attendancelist');
+        newObject.show = item.get('show');
 
-        tDates.push(ob);
+        datesArray.push(newObject);
         return null;
       });
-      return tDates.sort((a, b) => b.sessiondate - a.sessiondate);
+      return datesArray.sort((a, b) => b.sessiondate - a.sessiondate);
     },
-
     tableMembers() {
-      const tItems = [];
+      const arrayOfMembers = [];
       this.members.map((member) => {
-        const ob = {};
-        ob.name = member.get('name');
-        ob.shoulders = member.get('shoulders');
-        ob.weight = member.get('weight');
-        ob.arm = member.get('arm');
-        ob.regular = member.get('regular');
-        ob.member = member.get('member');
-        tItems.push(ob);
+        const newObject = {};
+        newObject.name = member.get('name');
+        newObject.shoulders = member.get('shoulders');
+        newObject.weight = member.get('weight');
+        newObject.arm = member.get('arm');
+        newObject.regular = member.get('regular');
+        newObject.member = member.get('member');
+        arrayOfMembers.push(newObject);
         return null;
       });
-      return tItems;
+      return arrayOfMembers;
     },
-  },
-
-  watch: {
-
   },
 };
 </script>

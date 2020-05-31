@@ -9,6 +9,7 @@
 
 <script>
 import Parse from 'parse';
+import initParse from '../utils/initParse';
 
 export default {
   name: 'Login',
@@ -27,14 +28,10 @@ export default {
   }),
 
   created() {
-    this.initParse();
+    initParse();
   },
 
   methods: {
-    initParse() {
-      Parse.initialize(process.env.VUE_APP_B4APPID, process.env.VUE_APP_B4AJAVASCRIPTKEY);
-      Parse.serverURL = process.env.VUE_APP_SERVERURL;
-    },
     login() {
       // eslint-disable-next-line
       const user = Parse.User.logIn(this.input.username, this.input.password)

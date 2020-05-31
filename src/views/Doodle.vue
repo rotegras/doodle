@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import initParse from '../utils/initParse';
 import AttendanceList from '../components/doodle/AttendanceList.vue';
 import DatesList from '../components/doodle/DatesList.vue';
 import MemberList from '../components/doodle/MemberList.vue';
@@ -68,16 +69,12 @@ export default {
   }),
 
   created() {
-    this.initParse();
+    initParse();
     this.getMembers();
     this.getDates();
   },
 
   methods: {
-    initParse() {
-      Parse.initialize(process.env.VUE_APP_B4APPID, process.env.VUE_APP_B4AJAVASCRIPTKEY);
-      Parse.serverURL = process.env.VUE_APP_SERVERURL;
-    },
     getDates() {
       const datesQuery = new Parse.Query('CdbSession');
       datesQuery.find().then((items) => {
